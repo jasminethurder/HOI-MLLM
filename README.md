@@ -7,7 +7,7 @@ Unlike conventional DETR-style HOI detectors that rely on predefined interaction
 ## Installation
 
 ```bash
-git clone https://github.com/yourname/HOI-MLLM.git
+git clone https://github.com/jasminethurder/HOI-MLLM.git
 cd HOI-MLLM
 pip install -r requirements.txt
 ```
