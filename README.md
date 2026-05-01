@@ -3,7 +3,7 @@
 Official repository for **Towards Open-World Human-Object Interaction Reasoning with Multimodal Large Language Models**, accepted as an **ICASSP 2026 Oral Presentation**.
 
 **Project page:** https://jasminethurder.github.io/HOI-MLLM/  
-**Paper:** [`docs/assets/hoi-mllm-icassp2026.pdf`](docs/assets/hoi-mllm-icassp2026.pdf)  
+**Paper:** [`docs/assets/icassp-wzy.pdf`](docs/assets/icassp-wzy.pdf)  
 **Poster:** [`docs/assets/hoi-mllm-poster.pdf`](docs/assets/hoi-mllm-poster.pdf)  
 **HOI F1 benchmark:** [`docs/assets/hoi_f1_horizontal.pdf`](docs/assets/hoi_f1_horizontal.pdf)
 
