@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="HOI-MLLM: Towards Open-World Human-Object Interaction Reasoning with Multimodal Large Language Model."
+    />
+    <title>HOI-MLLM | Open-World Human-Object Interaction Reasoning</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top">HOI-MLLM</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#examples">Examples</a>
+        <a href="#citation">Citation</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-label="Paper title">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="paper-meta" aria-label="Paper metadata">
+            <span>ICASSP 2026 Oral</span>
+            <span>Open-world HOI</span>
+            <span>MLLM reasoning</span>
+          </div>
+          <h1>Towards Open-World Human-Object Interaction Reasoning with Multimodal Large Language Model</h1>
+          <p class="authors">
+            <span>Eastman Z. Y. Wu</span>
+            <span>Yali Li</span>
+            <span>Shengjin Wang</span>
+          </p>
+          <p class="affiliation">
+            Department of Electronic Engineering, Tsinghua University
+          </p>
+          <div class="resource-buttons" aria-label="Paper resources">
+            <a href="assets/hoi-mllm-icassp2026.pdf">Paper PDF</a>
+            <a href="assets/hoi-mllm-poster.pdf">Poster</a>
+            <a href="assets/hoi_f1_horizontal.pdf">F1 Benchmark</a>
+            <a href="https://github.com/jasminethurder/HOI-MLLM">Code</a>
+            <a href="#citation">BibTeX</a>
+          </div>
+          <p class="hero-summary">
+            A reasoning-first HOI detector that produces structured predictions and human-readable instance-level explanations.
+          </p>
+          <p class="photo-credit">
+            Background photo:
+            <a href="https://unsplash.com/photos/person-decorating-cake-ZaXgQzpmkX0">Brooke Lark / Unsplash</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="section intro-band" aria-label="Project summary">
+        <div class="section-inner narrow">
+          <p class="lead">
+            HOI-MLLM formulates human-object interaction detection as structured multimodal reasoning, enabling open-vocabulary predictions, instance-level chain-of-thought explanations, and strong HOI detection performance.
+          </p>
+          <div class="key-points">
+            <div>
+              <span class="point-kicker">01</span>
+              <strong>Open-world</strong>
+              <span>Reason about interactions beyond predefined concepts.</span>
+            </div>
+            <div>
+              <span class="point-kicker">02</span>
+              <strong>Interpretable</strong>
+              <span>Generate HOI-specific reasoning chains before the final answer.</span>
+            </div>
+            <div>
+              <span class="point-kicker">03</span>
+              <strong>Structured</strong>
+              <span>Produce parseable human, object, class, and interaction outputs.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="abstract" class="section">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Overview</p>
+            <h2>Abstract</h2>
+          </div>
+          <p class="body-text">
+            Human-Object Interaction (HOI) detection extends conventional object detection by reasoning about higher-level semantic relationships between humans and objects. Most existing HOI detectors are built on DETR-style architectures and rely on external knowledge from large language models or vision-language models. However, they still face insufficient semantic understanding, restricted open-world knowledge, and weak interpretability.
+          </p>
+          <p class="body-text">
+            We propose <strong>HOI-MLLM</strong>, a framework for HOI detection that leverages the reasoning capability of multimodal large language models. We construct balanced supervised fine-tuning data with curated chain-of-thought annotations, and adopt a two-stage training strategy that combines SFT warm-up with GRPO-based post-training guided by HOI-specific reward functions. Experiments on V-COCO and HICO-DET demonstrate state-of-the-art performance while producing interpretable reasoning chains.
+          </p>
+          <div class="contribution-strip" aria-label="Key contributions">
+            <div>
+              <b>Paradigm</b>
+              <span>HOI detection as structured multimodal generation.</span>
+            </div>
+            <div>
+              <b>Reasoning</b>
+              <span>Four-step CoT supervision for instance-level interaction inference.</span>
+            </div>
+            <div>
+              <b>Optimization</b>
+              <span>HOI-specific GRPO rewards for format, interaction, pairing, and F1.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section figure-section">
+        <div class="section-inner wide">
+          <div class="section-heading">
+            <p class="eyebrow">Motivation</p>
+            <h2>From Closed-Set Prediction to HOI Reasoning</h2>
+          </div>
+          <figure class="figure-frame">
+            <img src="assets/teaser.png" alt="Comparison between traditional HOI detection and HOI-MLLM reasoning." />
+            <figcaption>
+              Traditional HOI detectors rely on predefined concepts and external knowledge. HOI-MLLM directly reasons over visual cues and produces structured, instance-level HOI predictions.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="method" class="section method-band">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Method</p>
+            <h2>Structured Reasoning with MLLMs</h2>
+          </div>
+          <div class="method-grid">
+            <div class="method-step">
+              <span>1</span>
+              <h3>Balanced HOI Data</h3>
+              <p>Curate a smaller but balanced training set from long-tailed HOI benchmarks, prioritizing rare interactions at the instance level.</p>
+            </div>
+            <div class="method-step">
+              <span>2</span>
+              <h3>Structured Output</h3>
+              <p>Generate parseable HOI results containing human boxes, object boxes, object classes, and interactions.</p>
+            </div>
+            <div class="method-step">
+              <span>3</span>
+              <h3>Chain-of-Thought</h3>
+              <p>Supervise reflection, visual cue mining, interaction reasoning, and final structured HOI output.</p>
+            </div>
+            <div class="method-step">
+              <span>4</span>
+              <h3>GRPO Rewards</h3>
+              <p>Optimize image-level format and interaction rewards together with instance-level pairing and F1 rewards.</p>
+            </div>
+          </div>
+          <figure class="figure-frame">
+            <img src="assets/training_pipeline.png" alt="HOI-MLLM supervised fine-tuning and GRPO post-training pipeline." />
+            <figcaption>
+              The training pipeline combines SFT with chain-of-thought supervision and GRPO-based post-training using HOI-specific rewards.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="results" class="section">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Results</p>
+            <h2>Strong HOI Detection and Reasoning Performance</h2>
+          </div>
+          <div class="table-wrap" aria-label="Main performance table">
+            <table class="performance-table">
+              <thead>
+                <tr>
+                  <th>Benchmark</th>
+                  <th>Setting</th>
+                  <th>Method</th>
+                  <th>mF1</th>
+                  <th>mPrec</th>
+                  <th>mRec</th>
+                  <th>Takeaway</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="ours">
+                  <td>V-COCO</td>
+                  <td>R50-DETR</td>
+                  <td>HOI-MLLM</td>
+                  <td>69.28</td>
+                  <td>74.44</td>
+                  <td>65.56</td>
+                  <td>Best mF1 and strongest precision.</td>
+                </tr>
+                <tr>
+                  <td>V-COCO</td>
+                  <td>R50-DETR</td>
+                  <td>EZ-HOI†</td>
+                  <td>68.42</td>
+                  <td>62.56</td>
+                  <td>77.68</td>
+                  <td>Strong recall baseline.</td>
+                </tr>
+                <tr class="ours">
+                  <td>V-COCO</td>
+                  <td>Oracle</td>
+                  <td>HOI-MLLM</td>
+                  <td>81.94</td>
+                  <td>85.32</td>
+                  <td>79.35</td>
+                  <td>SOTA interaction reasoning.</td>
+                </tr>
+                <tr>
+                  <td>V-COCO</td>
+                  <td>Oracle</td>
+                  <td>EZ-HOI†</td>
+                  <td>81.02</td>
+                  <td>78.91</td>
+                  <td>84.84</td>
+                  <td>Closest traditional baseline.</td>
+                </tr>
+                <tr class="ours">
+                  <td>HICO-DET</td>
+                  <td>Oracle</td>
+                  <td>HOI-MLLM</td>
+                  <td>50.61</td>
+                  <td>51.16</td>
+                  <td>49.90</td>
+                  <td>SOTA with +3.09 mF1 over EZ-HOI†.</td>
+                </tr>
+                <tr>
+                  <td>HICO-DET</td>
+                  <td>Oracle</td>
+                  <td>EZ-HOI†</td>
+                  <td>47.52</td>
+                  <td>43.81</td>
+                  <td>48.62</td>
+                  <td>Prior best baseline.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-wrap compact" aria-label="Ablation table">
+            <table class="performance-table">
+              <thead>
+                <tr>
+                  <th>Variant</th>
+                  <th>SFT</th>
+                  <th>Mixed</th>
+                  <th>CoT</th>
+                  <th>GRPO</th>
+                  <th>mF1</th>
+                  <th>mPrec</th>
+                  <th>mRec</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>A1</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>31.31</td>
+                  <td>41.92</td>
+                  <td>27.46</td>
+                </tr>
+                <tr>
+                  <td>A2</td>
+                  <td>yes</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>64.07</td>
+                  <td>71.00</td>
+                  <td>59.46</td>
+                </tr>
+                <tr>
+                  <td>A4</td>
+                  <td>yes</td>
+                  <td>yes</td>
+                  <td>yes</td>
+                  <td>-</td>
+                  <td>68.10</td>
+                  <td>73.85</td>
+                  <td>63.71</td>
+                </tr>
+                <tr class="ours">
+                  <td>A5</td>
+                  <td>yes</td>
+                  <td>yes</td>
+                  <td>yes</td>
+                  <td>yes</td>
+                  <td>69.28</td>
+                  <td>74.44</td>
+                  <td>65.56</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="benchmark-panel" aria-label="HOI F1 benchmark">
+            <div class="benchmark-copy">
+              <p class="eyebrow">Benchmark View</p>
+              <h3>HOI F1 Benchmark Across MLLM Families</h3>
+              <p>
+                HOI-MLLM achieves the strongest F1 score among specialized HOI methods and general-purpose MLLMs, with a compact comparison grouped by model family.
+              </p>
+              <a href="assets/hoi_f1_horizontal.pdf">Open high-resolution PDF</a>
+            </div>
+            <figure class="benchmark-figure">
+              <img src="assets/hoi_f1_horizontal.png" alt="Horizontal HOI F1 benchmark comparing HOI-MLLM with specialized, Gemini, GPT, Claude, GLM, Qwen, Grok, xiaomi, moonshot, and other MLLM baselines." />
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="examples" class="section examples-band">
+        <div class="section-inner wide">
+          <div class="section-heading">
+            <p class="eyebrow">Qualitative Analysis</p>
+            <h2>Open-World, Fine-Grained, Instance-Level Explanations</h2>
+          </div>
+          <figure class="figure-frame dark-frame">
+            <img src="assets/qualitative_openworld.png" alt="Qualitative examples showing open-vocabulary and open-world HOI reasoning." />
+            <figcaption>
+              HOI-MLLM captures fine-grained cues such as chocolate residue, posture, hand-object contact, and baseball game context to infer interactions like licking and tagging.
+            </figcaption>
+          </figure>
+          <div class="capability-list">
+            <div>
+              <strong>Open-vocabulary detection</strong>
+              <span>Recognizes object details beyond predefined category names.</span>
+            </div>
+            <div>
+              <strong>Open-world knowledge</strong>
+              <span>Uses contextual knowledge such as sports rules to infer actions.</span>
+            </div>
+            <div>
+              <strong>Reflective reasoning</strong>
+              <span>Identifies incorrect detections and avoids invalid interactions.</span>
+            </div>
+            <div>
+              <strong>Fine-grained cues</strong>
+              <span>Reasons from posture, gaze, gesture, and object affordances.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="citation" class="section">
+        <div class="section-inner">
+          <div class="section-heading">
+            <p class="eyebrow">Reference</p>
+            <h2>Citation</h2>
+          </div>
+          <div class="citation-block">
+            <pre id="bibtex"><code>@inproceedings{wu2026hoi_mllm,
+  title     = {Towards Open-World Human-Object Interaction Reasoning with Multimodal Large Language Model},
+  author    = {Wu, Eastman Z. Y. and Li, Yali and Wang, Shengjin},
+  booktitle = {ICASSP 2026 - IEEE International Conference on Acoustics, Speech and Signal Processing},
+  year      = {2026}
+}</code></pre>
+            <button id="copy-bibtex" type="button">Copy BibTeX</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>HOI-MLLM</span>
+      <span>Open-world human-object interaction reasoning with multimodal large language models.</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
