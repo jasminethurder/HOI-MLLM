@@ -10,17 +10,23 @@
     <title>HOI-MLLM | Open-World Human-Object Interaction Reasoning</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body data-theme="light">
     <header class="site-header">
       <a class="brand" href="#top">HOI-MLLM</a>
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#abstract">Abstract</a>
-        <a href="#benchmark">Benchmark</a>
-        <a href="#method">Method</a>
-        <a href="#results">Results</a>
-        <a href="#examples">Examples</a>
-        <a href="#citation">Citation</a>
-      </nav>
+      <div class="header-actions">
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="#abstract">Abstract</a>
+          <a href="#benchmark">Benchmark</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#examples">Examples</a>
+          <a href="#citation">Citation</a>
+        </nav>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <span class="theme-toggle-icon" aria-hidden="true"></span>
+          <span class="theme-toggle-text">Dark</span>
+        </button>
+      </div>
     </header>
 
     <main id="top">
@@ -36,10 +42,11 @@
           <p class="authors">
             <span>Eastman Z. Y. Wu</span>
             <span>Yali Li</span>
-            <span>Shengjin Wang</span>
+            <span>Shengjin Wang <sup>*</sup></span>
           </p>
           <p class="affiliation">
-            Department of Electronic Engineering, Tsinghua University
+            Department of Electronic Engineering, Tsinghua University; Beijing National Research Center for Information Science and Technology (BNRist), China; National Engineering Research Center of Dangerous Articles and Explosives Detection Technologies, Beijing, China.
+            <span class="corresponding-note">* Corresponding author.</span>
           </p>
           <div class="resource-buttons" aria-label="Paper resources">
             <a href="assets/icassp-wzy.pdf">Paper PDF</a>
@@ -228,12 +235,11 @@
                   <th>mF1</th>
                   <th>mPrec</th>
                   <th>mRec</th>
-                  <th>Takeaway</th>
                 </tr>
               </thead>
               <tbody>
                 <tr class="group-row">
-                  <td colspan="7">V-COCO / R50-DETR Object Detections</td>
+                  <td colspan="6">V-COCO / R50-DETR Object Detections</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -242,7 +248,6 @@
                   <td>67.12</td>
                   <td>68.13</td>
                   <td>67.32</td>
-                  <td>Strong balanced baseline.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -251,7 +256,6 @@
                   <td>66.55</td>
                   <td>60.73</td>
                   <td>74.76</td>
-                  <td>High-recall multimodal prompt baseline.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -260,7 +264,6 @@
                   <td>67.65</td>
                   <td>60.98</td>
                   <td>77.47</td>
-                  <td>Scale-up variant.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -269,7 +272,6 @@
                   <td>64.67</td>
                   <td>58.67</td>
                   <td>73.16</td>
-                  <td>Concept-guided memory baseline.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -278,7 +280,6 @@
                   <td>67.80</td>
                   <td>64.21</td>
                   <td>73.17</td>
-                  <td>Improved precision over ADA-CM.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -287,7 +288,6 @@
                   <td>68.01</td>
                   <td>61.59</td>
                   <td>77.04</td>
-                  <td>Strong traditional HOID baseline.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -296,7 +296,6 @@
                   <td>68.42</td>
                   <td>62.56</td>
                   <td>77.68</td>
-                  <td>Closest baseline mF1.</td>
                 </tr>
                 <tr class="ours">
                   <td>V-COCO</td>
@@ -305,10 +304,9 @@
                   <td>69.28</td>
                   <td>74.44</td>
                   <td>65.56</td>
-                  <td>Best mF1 and strongest precision.</td>
                 </tr>
                 <tr class="group-row">
-                  <td colspan="7">V-COCO / Oracle Object Boxes</td>
+                  <td colspan="6">V-COCO / Oracle Object Boxes</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -317,7 +315,6 @@
                   <td>79.57</td>
                   <td>83.74</td>
                   <td>84.03</td>
-                  <td>Strong oracle recall and precision.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -326,7 +323,6 @@
                   <td>79.41</td>
                   <td>73.07</td>
                   <td>87.93</td>
-                  <td>High recall baseline.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -335,7 +331,6 @@
                   <td>81.06</td>
                   <td>75.19</td>
                   <td>89.22</td>
-                  <td>Highest recall in this setting.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -344,7 +339,6 @@
                   <td>78.18</td>
                   <td>73.84</td>
                   <td>83.95</td>
-                  <td>Concept-memory baseline.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -353,7 +347,6 @@
                   <td>79.02</td>
                   <td>74.64</td>
                   <td>85.22</td>
-                  <td>Scale-up variant.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -362,7 +355,6 @@
                   <td>80.60</td>
                   <td>77.86</td>
                   <td>84.41</td>
-                  <td>Strong oracle baseline.</td>
                 </tr>
                 <tr>
                   <td>V-COCO</td>
@@ -371,7 +363,6 @@
                   <td>81.02</td>
                   <td>78.91</td>
                   <td>84.84</td>
-                  <td>Closest traditional baseline.</td>
                 </tr>
                 <tr class="ours">
                   <td>V-COCO</td>
@@ -380,10 +371,9 @@
                   <td>81.94</td>
                   <td>85.32</td>
                   <td>79.35</td>
-                  <td>Best mF1 and precision.</td>
                 </tr>
                 <tr class="group-row">
-                  <td colspan="7">HICO-DET / R50-DETR Object Detections</td>
+                  <td colspan="6">HICO-DET / R50-DETR Object Detections</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -392,7 +382,6 @@
                   <td>28.68</td>
                   <td>25.29</td>
                   <td>44.10</td>
-                  <td>Strong recall baseline.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -401,7 +390,6 @@
                   <td>26.08</td>
                   <td>24.40</td>
                   <td>36.64</td>
-                  <td>Multimodal prompt baseline.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -410,7 +398,6 @@
                   <td>33.24</td>
                   <td>33.24</td>
                   <td>43.52</td>
-                  <td>Best mF1 in R50-DETR setting.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -419,7 +406,6 @@
                   <td>28.20</td>
                   <td>27.37</td>
                   <td>35.62</td>
-                  <td>Concept-guided memory baseline.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -428,7 +414,6 @@
                   <td>34.14</td>
                   <td>32.25</td>
                   <td>44.69</td>
-                  <td>Best recall in R50-DETR setting.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -437,7 +422,6 @@
                   <td>27.82</td>
                   <td>26.00</td>
                   <td>36.58</td>
-                  <td>Traditional HOID baseline.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -446,7 +430,6 @@
                   <td>31.44</td>
                   <td>30.57</td>
                   <td>40.20</td>
-                  <td>Scale-up variant.</td>
                 </tr>
                 <tr class="ours">
                   <td>HICO-DET</td>
@@ -455,10 +438,9 @@
                   <td>30.32</td>
                   <td>35.71</td>
                   <td>36.21</td>
-                  <td>Strongest precision among R50-DETR rows.</td>
                 </tr>
                 <tr class="group-row">
-                  <td colspan="7">HICO-DET / Oracle Object Boxes</td>
+                  <td colspan="6">HICO-DET / Oracle Object Boxes</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -467,7 +449,6 @@
                   <td>44.41</td>
                   <td>39.73</td>
                   <td>61.63</td>
-                  <td>High recall oracle baseline.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -476,7 +457,6 @@
                   <td>36.55</td>
                   <td>30.74</td>
                   <td>59.22</td>
-                  <td>Multimodal prompt baseline.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -485,7 +465,6 @@
                   <td>44.76</td>
                   <td>40.77</td>
                   <td>60.32</td>
-                  <td>Scale-up variant.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -494,7 +473,6 @@
                   <td>39.78</td>
                   <td>36.68</td>
                   <td>53.68</td>
-                  <td>Concept-guided memory baseline.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -503,7 +481,6 @@
                   <td>45.81</td>
                   <td>41.97</td>
                   <td>61.39</td>
-                  <td>Strong oracle baseline.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -512,7 +489,6 @@
                   <td>42.72</td>
                   <td>37.82</td>
                   <td>59.48</td>
-                  <td>Traditional HOID baseline.</td>
                 </tr>
                 <tr>
                   <td>HICO-DET</td>
@@ -521,7 +497,6 @@
                   <td>47.52</td>
                   <td>43.32</td>
                   <td>63.24</td>
-                  <td>Prior best mF1 baseline.</td>
                 </tr>
                 <tr class="ours">
                   <td>HICO-DET</td>
@@ -530,7 +505,6 @@
                   <td>50.61</td>
                   <td>51.37</td>
                   <td>56.47</td>
-                  <td>SOTA mF1 and precision.</td>
                 </tr>
               </tbody>
             </table>
